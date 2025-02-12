@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { collection, addDoc } from "firebase/firestore";
-import { storage, db } from "../../../firebaseConfig";
+import { storageService } from "../../services/storageService";
+import { partenairesService } from "../../services/partenairesService";
+import { storage } from "../../../firebaseConfig";
 
 const AddPartnerForm = () => {
   const navigate = useNavigate();
@@ -48,10 +50,10 @@ const AddPartnerForm = () => {
     }
 
     try {
-      const logoUrl = logo ? await uploadFile(logo, "logos") : "";
-      const imageUrl = image ? await uploadFile(image, "partners") : "";
-
-      await addDoc(collection(db, "partners"), {
+      const logoUrl =  logo ? await uploadFile(logo , "pateners/logos") : "";
+      const imageUrl = image ? await uploadFile(image , "pateners/imlages"): "";
+       
+      const newPartener = {
         name,
         logo: logoUrl,
         imageUrl,
@@ -61,15 +63,16 @@ const AddPartnerForm = () => {
         telephone,
         email,
         description,
-        createdAt: new Date(),
-      });
+        createdAt: new Date().toISOString(),
+      }
+      await partenairesService.addPartenaire(newPartener)
 
       alert("Partenaire ajouté avec succès !");
       setName(""); setLogo(null); setImage(null);
       setCommission(""); setCategory(""); setSiegeSocial("");
       setTelephone(""); setEmail(""); setDescription("");
 
-      navigate("/partenaires"); // 🔹 Redirection après l'ajout
+      navigate("/partenaires"); 
     } catch (error) {
       console.error("Erreur lors de l'ajout :", error.message);
       alert("Erreur lors de l'ajout : " + error.message);

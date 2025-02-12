@@ -5,13 +5,13 @@ import { getAnalytics } from "firebase/analytics";
 
 // Configuration Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyBeHQ15nPHK9BMQpQpIweKpR0b3endKBBo",
-  authDomain: "annuaire-sunkdo.firebaseapp.com",
-  projectId: "annuaire-sunkdo",
-  storageBucket: "annuaire-sunkdo.appspot.com", // 🔹 Correction du storageBucket
-  messagingSenderId: "998054098625",
-  appId: "1:998054098625:web:dde01499c78b0b67494640",
-  measurementId: "G-56XMN6K7PD"
+  apiKey: "AIzaSyDpzHW2l-lm0dpsQ0KKpDTiVnTN9GdroQ0",
+  authDomain: "sunkdo.firebaseapp.com",
+  projectId: "sunkdo",
+  storageBucket: "sunkdo.firebasestorage.app",
+  messagingSenderId: "158678088912",
+  appId: "1:158678088912:web:245389f6d688e099fd32d5",
+  measurementId: "G-3963MCCJPB"
 };
 
 // Initialisation de Firebase

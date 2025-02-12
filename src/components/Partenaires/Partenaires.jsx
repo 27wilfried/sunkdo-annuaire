@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { db } from "../../../firebaseConfig"; // Assurez-vous que votre firebaseConfig est correctement configuré
 import { collection, getDocs } from "firebase/firestore"; // Importation pour la récupération des données
-
+import { db } from "../../../firebaseConfig";
 export default function Partenaires() {
   const [partenaires, setPartenaires] = useState([]);
 
