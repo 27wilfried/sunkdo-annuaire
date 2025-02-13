@@ -7,6 +7,9 @@ import Sidebar from './components/Sidebare/Sidebare';
 import Partenaires from './components/Partenaires/Partenaires';
 import Footer from './components/Footer/Footer';
 import FormulairePartenaire from './components/Add/Add';
+import PartenaireDetail from "./components/PartenaireDetail/PartenaireDetail";
+
+
 
 const App = () => {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -27,9 +30,10 @@ const App = () => {
       <div className="flex min-h-screen">
         <div className="flex-1 p-6">
           <Routes>
-            <Route path="/ajouter-partenaire" element={<FormulairePartenaire />} />
-            <Route path="/" element={<Partenaires />} />
-          </Routes>
+              <Route path="/ajouter-partenaire" element={<FormulairePartenaire />} />
+              <Route path="/" element={<Partenaires />} />
+              <Route path="/partenaire/:id" element={<PartenaireDetail />} /> {/* Nouvelle route */}
+        </Routes>
         </div>
       </div>
       <Footer />

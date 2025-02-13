@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Search,
   CheckCircle,
@@ -36,31 +36,27 @@ export default function Sidebar({ onFilterChange }) {
     { name: "Textiles", icon: <Shirt size={16} /> },
   ];
 
-  const toggleDepartment = (department) => {
-    setSelectedDepartments((prev) => {
-      const newDepartments = prev.includes(department)
-        ? prev.filter((dep) => dep !== department)
-        : [...prev, department];
+  // ✅ Utilisation de useEffect avec une vérification sur `onFilterChange`
+  useEffect(() => {
+    if (typeof onFilterChange === "function") {
+      onFilterChange({
+        search,
+        category: selectedCategory,
+        departments: selectedDepartments,
+      });
+    }
+  }, [search, selectedCategory, selectedDepartments]);
 
-      onFilterChange({ search, category: selectedCategory, departments: newDepartments });
-      return newDepartments;
-    });
+  const toggleDepartment = (department) => {
+    setSelectedDepartments((prev) =>
+      prev.includes(department)
+        ? prev.filter((dep) => dep !== department)
+        : [...prev, department]
+    );
   };
 
   const handleCategoryChange = (category) => {
-    setSelectedCategory((prevCategory) => {
-      const newCategory = prevCategory === category ? "" : category;
-      onFilterChange({ search, category: newCategory, departments: selectedDepartments });
-      return newCategory;
-    });
-  };
-
-  const handleSearchChange = (e) => {
-    const newSearch = e.target.value;
-    setSearch(newSearch);
-
-    // Pass search, category, and departments to the parent (onFilterChange)
-    onFilterChange({ search: newSearch, category: selectedCategory, departments: selectedDepartments });
+    setSelectedCategory((prevCategory) => (prevCategory === category ? "" : category));
   };
 
   return (
@@ -72,7 +68,7 @@ export default function Sidebar({ onFilterChange }) {
           type="text"
           placeholder="Rechercher par nom de l'entreprise"
           value={search}
-          onChange={handleSearchChange}
+          onChange={(e) => setSearch(e.target.value)}
           className="w-full pl-10 pr-3 py-2 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-gray-500"
         />
       </div>
