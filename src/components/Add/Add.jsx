@@ -86,7 +86,8 @@ const AddPartnerForm = () => {
       setEmail("");
       setDescription("");
 
-      navigate("/partenaires");
+      // Redirection vers la page d'accueil
+      navigate("/"); // Changement ici
     } catch (error) {
       console.error("Erreur lors de l'ajout :", error.message);
       alert("Erreur lors de l'ajout : " + error.message);
