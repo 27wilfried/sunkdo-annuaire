@@ -6,54 +6,43 @@ import "aos/dist/aos.css";
 import Sidebar from './components/Sidebare/Sidebare';
 import Partenaires from './components/Partenaires/Partenaires';
 import Footer from './components/Footer/Footer';
-import FormulairePartenaire from './components/Add/Add'; // 🔹 Importation du formulaire
+import FormulairePartenaire from './components/Add/Add';
+import PartenaireDetail from "./components/PartenaireDetail/PartenaireDetail";
+import {  AuthProvider } from './contexts/AuthContext';
+import AuthPage from './components/AuthPage/AuthPage';
 
 const App = () => {
-  const [theme, setTheme] = useState(
-    localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
-  );
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
 
-  const element = document.documentElement;
+  // Change le thème basé sur l'état 'theme'
   useEffect(() => {
-    if (theme === "dark") {
-      element.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      element.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    localStorage.setItem("theme", theme);
   }, [theme]);
 
-  // AOS initialization
+  // Initialisation d'AOS pour les animations au scroll
   useEffect(() => {
-    AOS.init({
-      offset: 100,
-      duration: 800,
-      easing: 'ease-in-sine',
-      delay: 100,
-    });
+    AOS.init({ offset: 100, duration: 800, easing: 'ease-in-sine', delay: 100 });
     AOS.refresh();
-  }, []); // Ajout de [] pour que le code ne se répète pas à chaque re-rendu
+  }, []);
 
   return (
-    <Router>
+      <Router>
+      <AuthProvider>
       <Navbar theme={theme} setTheme={setTheme} />
-      <Routes>
-        {/* Route pour la page d'ajout de partenaire */}
-        <Route path="/ajouter-partenaire" element={<FormulairePartenaire />} />
-        {/* Page principale avec sidebar et partenaires */}
-        <Route path="/" element={
-          <div className="flex min-h-screen">
-            <div className="w-64 p-4 rounded-lg shadow-md">
-              <Sidebar />
-            </div>
-            <div className="flex-1 p-6">
-              <Partenaires />
-            </div>
-          </div>
-        } />
-      </Routes>
+      <div className="flex min-h-screen">
+        <div className="flex-1 p-6">
+          <Routes>
+            <Route path="/ajouter-partenaire" element={<FormulairePartenaire />} />
+            <Route path="/" element={<Partenaires />} />
+            <Route path="/auth" element={<AuthPage />} />
+
+            <Route path="/partenaire/:id" element={<PartenaireDetail />} /> {/* Nouvelle route */}
+          </Routes>
+        </div>
+      </div>
       <Footer />
+      </AuthProvider>
     </Router>
   );
 };
